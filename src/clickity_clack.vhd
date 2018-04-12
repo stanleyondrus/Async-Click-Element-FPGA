@@ -44,27 +44,21 @@ end clickity_clack;
 architecture Behavioral of clickity_clack is
 
 signal ack_o_int : std_logic := '0';
-signal and1 : Boolean;
-signal and2 : Boolean;
+signal and1 : std_logic;
+signal and2 : std_logic;
 signal or_out: std_logic := '0';
 signal data_sig: std_logic_vector(2 downto 0) := (others => '0');
 
 begin
 
-and1 <= req_i = '0' and ack_o_int = '1' and ack_i = '1';
-and2 <= ack_i = '0' and ack_o_int = '0' and req_i = '1';
+and1 <= not(req_i) and ack_o_int and ack_i;
+and2 <= not(ack_i) and not(ack_o_int) and req_i;
+or_out <= and1 or and2;
 req_o <= ack_o_int;
 data_o <= data_sig;
 ack_o <= ack_o_int;
 
-or_output: process(ack_i, ack_o_int, req_i)
-begin
-    if and1 or and2 then
-        or_out <= '1';
-    else
-        or_out <= '0';
-    end if;
-end process;
+
 
 clock_regs: process(or_out)
 begin
