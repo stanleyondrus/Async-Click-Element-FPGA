@@ -32,29 +32,34 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity clickity_clack is
+  GENERIC ( DATA_WIDTH: NATURAL := 3;
+            SEED: NATURAL := 4;
+            REQ_INIT : STD_LOGIC := '0');
   Port (    rst : in std_logic;
             ack_i : in std_logic;
             req_i : in std_logic;
-            data_i: in std_logic_vector(2 downto 0);
+            data_i: in std_logic_vector(DATA_WIDTH-1 downto 0);
             ack_o: out std_logic;
             req_o: out std_logic;
-            data_o: out std_logic_vector(2 downto 0));
+            data_o: out std_logic_vector(DATA_WIDTH-1 downto 0));
 end clickity_clack;
 
 architecture Behavioral of clickity_clack is
 
-signal ack_o_int : std_logic := '0';
+signal ack_o_int : std_logic := REQ_INIT;--'0';
 signal and1 : std_logic;
 signal and2 : std_logic;
 signal or_out: std_logic := '0';
-signal data_sig: std_logic_vector(2 downto 0) := (others => '0');
+signal data_sig: std_logic_vector(DATA_WIDTH-1 downto 0) := std_logic_vector(to_unsigned(SEED, DATA_WIDTH));
+signal req_sig: std_logic := REQ_INIT;
 
 begin
 
 and1 <= not(req_i) and ack_o_int and ack_i;
 and2 <= not(ack_i) and not(ack_o_int) and req_i;
 or_out <= and1 or and2;
-req_o <= ack_o_int;
+req_o <= ack_o_int;-- req_sig;
+--req_sig <= ack_o_int;
 data_o <= data_sig;
 ack_o <= ack_o_int;
 
