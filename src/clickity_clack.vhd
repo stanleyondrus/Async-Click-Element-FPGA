@@ -33,7 +33,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity clickity_clack is
   GENERIC ( DATA_WIDTH: NATURAL := 3;
-            SEED: NATURAL := 4;
+            SEED: NATURAL := 0;
             REQ_INIT : STD_LOGIC := '0');
   Port (    rst : in std_logic;
             ack_i : in std_logic;
@@ -65,11 +65,14 @@ ack_o <= ack_o_int;
 
 
 
-clock_regs: process(or_out)
+clock_regs: process(or_out, rst)
 begin
     if rst = '1' then
         ack_o_int <= '0';
         data_sig <= (others => '0');
+    elsif falling_edge(rst) then
+        ack_o_int <= REQ_INIT;
+        data_sig <= std_logic_vector(to_unsigned(SEED, DATA_WIDTH));
     else
         if rising_edge(or_out) then
             ack_o_int <= not ack_o_int;
