@@ -68,8 +68,11 @@ ring_gen:for i in 0 to stages-1 generate
     );
 end generate;
 
-req_in_sig(0) <= not ack_out_sig(0);
-req_in_sig(stages) <= ack_out_sig(stages);
+--req_in_sig(0) <= not ack_out_sig(0);
+--req_in_sig(stages) <= ack_out_sig(stages);
 data_in_sig(0) <= data_in_sig(stages);
+
+req_in_sig(0) <= req_in_sig(stages);
+ack_out_sig(stages) <= ack_out_sig(0);
 
 end ring_behavioral;
