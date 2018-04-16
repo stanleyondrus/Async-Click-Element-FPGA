@@ -32,10 +32,10 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity clickity_clack is
-  GENERIC ( DATA_WIDTH: NATURAL := 3;
-            SEED: NATURAL := 4;
+  generic ( DATA_WIDTH: NATURAL := 3;
+            SEED: NATURAL := 0;
             REQ_INIT : STD_LOGIC := '0');
-  Port (    rst : in std_logic;
+  port (    rst : in std_logic;
             ack_i : in std_logic;
             req_i : in std_logic;
             data_i: in std_logic_vector(DATA_WIDTH-1 downto 0);
@@ -58,25 +58,24 @@ begin
 and1 <= not(req_i) and ack_o_int and ack_i;
 and2 <= not(ack_i) and not(ack_o_int) and req_i;
 or_out <= and1 or and2;
-req_o <= ack_o_int;-- req_sig;
+req_o <= ack_o_int;
+--req_sig;
 --req_sig <= ack_o_int;
 data_o <= data_sig;
 ack_o <= ack_o_int;
 
-
-
-clock_regs: process(or_out)
+process(or_out, rst)
 begin
     if rst = '1' then
         ack_o_int <= '0';
         data_sig <= (others => '0');
-    else
-        if rising_edge(or_out) then
-            ack_o_int <= not ack_o_int;
-            data_sig <= data_i;
-        end if;
+  --  elsif falling_edge(rst) then
+    --    ack_o_int <= REQ_INIT;
+      --  data_sig <= std_logic_vector(to_unsigned(SEED, DATA_WIDTH));
+    elsif rising_edge(or_out) then
+       ack_o_int <= not ack_o_int;
+       data_sig <= data_i;
     end if;
 end process;
-
 
 end Behavioral;

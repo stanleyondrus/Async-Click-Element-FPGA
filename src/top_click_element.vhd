@@ -32,31 +32,39 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity ring_click_element is
-  Generic( stages:integer:=5);
-  Port(  rst, ack_i, req_i : in std_logic;
-         data_i: in std_logic_vector(2 downto 0);
+  generic(  STAGES: integer:=5;
+            DATA_WIDTH: NATURAL := 3);
+  port(  rst, ack_i, req_i : in std_logic;
+         data_i: in std_logic_vector(DATA_WIDTH-1 downto 0);
          ack_o, req_o: out std_logic;
-         data_o: out std_logic_vector(2 downto 0));
+         data_o: out std_logic_vector(DATA_WIDTH-1 downto 0));
 end ring_click_element;
 
 architecture ring_behavioral of ring_click_element is
 
-signal ack_out_sig, req_in_sig: std_logic_vector(stages downto 0);
+signal ack_out_sig, req_in_sig: std_logic_vector(STAGES downto 0);
 
-type data_type is array(stages downto 0) of std_logic_vector(2 downto 0);
+type data_type is array(STAGES downto 0) of std_logic_vector(DATA_WIDTH-1 downto 0);
 signal data_in_sig: data_type;
 
 component clickity_clack is
-  Port(    rst, ack_i, req_i: in std_logic;
-           data_i: in std_logic_vector(2 downto 0);
+ generic ( DATA_WIDTH: NATURAL := DATA_WIDTH;
+           SEED: NATURAL := 0;
+           REQ_INIT : STD_LOGIC := '0');
+  port(    rst, ack_i, req_i: in std_logic;
+           data_i: in std_logic_vector(DATA_WIDTH-1 downto 0);
            ack_o, req_o: out std_logic;
-           data_o: out std_logic_vector(2 downto 0));
+           data_o: out std_logic_vector(DATA_WIDTH-1 downto 0));
      end component;
      
 begin
 
-ring_gen:for i in 0 to stages-1 generate
-    clickity_clack_i : clickity_clack
+ring_gen:for i in 0 to STAGES-1 generate
+   clickity_clack_i : clickity_clack
+   generic map(
+               DATA_WIDTH => DATA_WIDTH,
+               SEED => 0,                
+               REQ_INIT => '0')
    port map(
            rst => rst,
            ack_i => ack_out_sig(i+1),
@@ -68,11 +76,13 @@ ring_gen:for i in 0 to stages-1 generate
     );
 end generate;
 
---req_in_sig(0) <= not ack_out_sig(0);
---req_in_sig(stages) <= ack_out_sig(stages);
-data_in_sig(0) <= data_in_sig(stages);
+data_in_sig(0) <= data_in_sig(STAGES);
 
-req_in_sig(0) <= req_in_sig(stages);
-ack_out_sig(stages) <= ack_out_sig(0);
+--FOR PIPELINE
+--req_in_sig(0) <= not ack_out_sig(0);
+--req_in_sig(STAGES) <= ack_out_sig(STAGES);
+
+req_in_sig(0) <= req_in_sig(STAGES);
+ack_out_sig(STAGES) <= ack_out_sig(0);
 
 end ring_behavioral;
