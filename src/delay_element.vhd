@@ -85,7 +85,7 @@ begin
 
         delay_lut: lut2
             generic  map(
-            init => "1000" -- And  truth -table.
+            init => "1010" -- And  truth -table.
             )
             port  map(
                 I1 => d,
