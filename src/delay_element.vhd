@@ -18,11 +18,8 @@
 -- 
 ----------------------------------------------------------------------------------
 
-
-
-
-
-
+-- CHECK OUT https://forums.xilinx.com/t5/Archived-ISE-issues-Archived/How-do-I-Implement-a-Delay-Circuitry-with-LUT-s/td-p/9259
+-- EXPALAINS HOW THESE LUTS CAN BE INITIALIZED.
 
 library IEEE;
 library  unisim;
@@ -67,7 +64,7 @@ architecture  lut of  delay_element  is
 
 begin
 
-    s_connect (0)  <= d;
+    s_connect (0)  <= '0';
     
     -- Create  a riple -chain  of  luts (and  gates).
     
@@ -85,7 +82,7 @@ begin
 
         delay_lut: lut2
             generic  map(
-            init => "1000" -- And  truth -table.
+            init => "1110"--"1000" -- And  truth -table.
             )
             port  map(
                 I1 => d,
