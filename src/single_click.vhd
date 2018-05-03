@@ -33,96 +33,80 @@ use ieee.std_logic_unsigned.all;
 --use UNISIM.VComponents.all;
 
 entity single_click is
---  Port ( );
+    PORT (    rst : IN STD_LOGIC;
+      data : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+      test_in : IN STD_LOGIC;
+      test_out : OUT STD_LOGIC;
+      test_out_pin : OUT STD_LOGIC;
+      test_out_del : OUT STD_LOGIC);
 end single_click;
 
 architecture Behavioral of single_click is
 signal WIDTH: natural := 4;
-signal clk,rst : std_logic := '0'; 
 signal delay_req : std_logic;
-signal req_1_del, req_del_1, req_in : std_logic;
-signal data_sig, data_res : std_logic_vector(3 downto 0);
+signal req_sig, req_inv : std_logic;
+signal data_sig, data_res : std_logic_vector(4 downto 0);
 signal input : std_logic := '0';
-signal ack_o, ack_sig, ack_inv: std_logic;
+signal ack_o, ack_sig, ack_sig_1, ack_sig_2, ack_sig_3, ack_sig_4, ack_inv: std_logic;
 
-component clock
-    generic(
-    period : time := 50 ns
-    );
-    port(
-        stop : in  std_logic;
-        clk  : out std_logic := '0'
-    );
-end component;
 
-component clickity_clack is
-  GENERIC ( DATA_WIDTH: NATURAL := 4;
-          SEED: NATURAL := 4;
-          REQ_INIT : STD_LOGIC := '0');
-  Port (    rst : in std_logic;
-            ack_i : in std_logic;
-            req_i : in std_logic;
-            data_i: in std_logic_vector(DATA_WIDTH-1 downto 0);
-            ack_o: out std_logic;
-            req_o: out std_logic;
-            data_o: out std_logic_vector(DATA_WIDTH-1 downto 0));
-end component;
 
 component delay_element
     generic(
-        size : natural  range 1 to 30 := 8 -- Delay  size
+        size : natural  range 1 to 30 := 11 -- Delay  size
         );
         port (
             d : in   std_logic := '0'; -- Data  in
             z : out  std_logic := '0');
     end  component;
-    
-    
 
 begin
-    
-    dut0 : clock
-        port map(
-        stop => rst,
-        clk => clk
-    );
-
-    delay_elem_req : delay_element
-        generic map(
-                size => 8)
-        port map(
-            d => req_1_del,
-            z => req_del_1
-        );
-        
+    test_out <= test_in;
+    test_out_pin <= test_in;
+    test_out_del <= ack_sig_4;
+    data <= "10101";
+       
     delay_elem_ack : delay_element
         generic map(
-                size => 9)
+                size => 25)
         port map(
-            d => ack_o,
+            d => test_in,
             z => ack_sig
         );
         
-    req_in <= not req_del_1;
-    ack_inv <= not ack_sig;
-    data_res <= data_sig + '1';
-    
-    stage1 : clickity_clack
+    delay_elem_ack1 : delay_element
         generic map(
-            DATA_WIDTH => 4,
-            SEED => 1,
-            REQ_INIT => '1')
+                size => 20)
         port map(
-            rst => rst,
-            ack_i => ack_inv,
-            req_i => req_in,
-            data_i => data_res,
-            ack_o => ack_o,
-            req_o => req_1_del,
-            data_o => data_sig
+            d => ack_sig,
+            z => ack_sig_1
+        );
+        
+    delay_elem_ack2 : delay_element
+        generic map(
+                size => 20)
+        port map(
+            d => ack_sig_1,
+            z => ack_sig_2
+        );
+        
+    delay_elem_ack3 : delay_element
+        generic map(
+                size => 20)
+        port map(
+            d => ack_sig_2,
+            z => ack_sig_3
+        );
+        
+    delay_elem_ack4 : delay_element
+        generic map(
+                size => 20)
+        port map(
+            d => ack_sig_3,
+            z => ack_sig_4
         );
 
-    rst <= '1', '0' after 50 ns;
+   -- rst <= '1', '0' after 120 ns;
 
 end Behavioral;
 ----
