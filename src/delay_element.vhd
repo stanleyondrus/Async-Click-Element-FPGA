@@ -32,7 +32,7 @@ use  unisim.vcomponents.lut1;
 
 entity  delay_element  is
 generic(
-    size : natural  range 1 to 30 := 10 -- Delay  size
+    size : natural  range 1 to 30 := 20 -- Delay  size
     );
     port (
         d : in   std_logic; -- Data  in
