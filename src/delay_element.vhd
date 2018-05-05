@@ -1,28 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 04/11/2018 10:04:46 PM
--- Design Name: 
--- Module Name: delay_element - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
+-- Delay element (2ns - 11ns)
 ----------------------------------------------------------------------------------
-
-
-
-
-
-
 
 library IEEE;
 library  unisim;
@@ -32,11 +10,11 @@ use  unisim.vcomponents.lut1;
 
 entity  delay_element  is
 generic(
-    size : natural  range 1 to 30 := 20 -- Delay  size
+    size : natural  range 1 to 30 := 30 -- number of LUTs
     );
     port (
         d : in   std_logic; -- Data  in
-        z : out  std_logic);
+        z : out  std_logic); -- Data out
 end  delay_element;
 
 architecture  lut of  delay_element  is
@@ -51,26 +29,20 @@ architecture  lut of  delay_element  is
         );
     end  component;
     
-    -- Internal  signals.
-    
+    -- Internal  signals.   
     signal  s_connect : std_logic_vector(size  downto  0);
-    --signal  d_inv ,o_first    :  std_logic ;
     
-    
-    --   Synthesis  attributes  - we don 't want  the
-    --   synthesizer  to  optimize  the  delay -chain.
+    --   Synthesis attributes - we don't want the
+    --   synthesizer to optimize the delay-chain.
     --------------------------------------------------
     attribute dont_touch : string;
     attribute dont_touch of  s_connect : signal  is "true";
-    --d_inv
     attribute rloc : string;
 
 begin
-
     s_connect (0)  <= d;
     
-    -- Create  a riple -chain  of  luts (and  gates).
-    
+    -- Create  a riple-chain  of  luts (and  gates).  
     lut_chain : for  index  in 0 to (size -1)  generate
     
     signal o : std_logic;
@@ -82,10 +54,9 @@ begin
     attribute  rloc of  delay_lut : label  is "X0Y" & integer 'image(y_val(index) );
     
     begin
-
         delay_lut: lut2
             generic  map(
-            init => "1010" -- And  truth -table.
+                init => "1010" -- AND truth-table
             )
             port  map(
                 I1 => d,
@@ -93,14 +64,11 @@ begin
                 O   => o
             );
         
-        -- Simulate  delay  of 1 ns.
+        -- Simulate delay of 1 ns     
+        s_connect(index +1) <= o after 1 ns;
         
-        s_connect(index +1)  <= o after 1 ns;
+   end generate lut_chain;
         
-        end  generate  lut_chain;
-        
-        -- Connect  the  output  of  delay  element
-        
+        -- Connect the output of delay element       
         z  <= s_connect(size -1);
-
 end  lut;
