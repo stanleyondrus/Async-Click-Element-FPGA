@@ -1,5 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Delay element (2ns - 11ns)
+-- used in delay_component
 ----------------------------------------------------------------------------------
 
 library IEEE;
@@ -8,29 +9,28 @@ use IEEE.STD_LOGIC_1164.ALL;
 use  unisim.vcomponents.lut2;
 use  unisim.vcomponents.lut1;
 
-entity  delay_element  is
-generic(
-    size : natural  range 1 to 30 := 30 -- number of LUTs
-    );
+entity  delay_element is
+    generic(
+        size : natural range 1 to 30 := 30); -- number of LUTs    
     port (
-        d : in   std_logic; -- Data  in
-        z : out  std_logic); -- Data out
+        d : in std_logic; -- Data in
+        z : out std_logic); -- Data out
 end  delay_element;
 
-architecture  lut of  delay_element  is
-    component  lut2
+architecture lut of delay_element  is
+    component lut2
         generic (
             init : bit_vector  := X"4"
         );
         port (
-            o   : out  std_ulogic;
-            i0 : in   std_ulogic;
-            i1 : in   std_ulogic
+            o  : out std_ulogic;
+            i0 : in std_ulogic;
+            i1 : in std_ulogic
         );
     end  component;
     
     -- Internal  signals.   
-    signal  s_connect : std_logic_vector(size  downto  0);
+    signal s_connect : std_logic_vector(size downto  0);
     
     --   Synthesis attributes - we don't want the
     --   synthesizer to optimize the delay-chain.
@@ -40,7 +40,7 @@ architecture  lut of  delay_element  is
     attribute rloc : string;
 
 begin
-    s_connect (0)  <= d;
+    s_connect(0) <= d;
     
     -- Create  a riple-chain  of  luts (and  gates).  
     lut_chain : for  index  in 0 to (size -1)  generate
