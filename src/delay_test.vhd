@@ -31,7 +31,7 @@ entity delay_test is
 end delay_test;
 
 architecture Behavioral of delay_test is
-constant STAGES : integer := 5;
+constant STAGES : integer := 500;
 signal delay_sig: std_logic_vector(STAGES downto 0);
 
 component delay_element
@@ -43,8 +43,8 @@ component delay_element
             z : out  std_logic := '0');
     end  component;
 
-attribute keep : string;
-attribute  keep of  delay_sig : signal is "true";  
+attribute dont_touch : string;
+attribute dont_touch of delay_sig : signal is "true";  
 
 begin
 
@@ -60,8 +60,9 @@ end generate;
 
    delay_sig(0) <= SW0;
    LED0 <= SW0;
-   LED1 <= delay_sig(STAGES-1);
+   LED1 <= delay_sig(STAGES);
    JA1 <= SW0;
-   JA4 <= delay_sig(STAGES-1);
-  
+   JA4 <= delay_sig(STAGES);
+
 end Behavioral;
+

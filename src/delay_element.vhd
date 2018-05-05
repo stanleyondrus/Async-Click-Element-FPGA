@@ -60,10 +60,10 @@ architecture  lut of  delay_element  is
     --   Synthesis  attributes  - we don 't want  the
     --   synthesizer  to  optimize  the  delay -chain.
     --------------------------------------------------
-    attribute  keep : string;
-    attribute  keep of  s_connect : signal  is "true";
+    attribute dont_touch : string;
+    attribute dont_touch of  s_connect : signal  is "true";
     --d_inv
-    attribute  rloc : string;
+    attribute rloc : string;
 
 begin
 
