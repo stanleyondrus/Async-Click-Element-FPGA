@@ -1,0 +1,14 @@
+
+clickElement/clickElement\.hw/
+
+clickElement/clickElement\.ip_user_files/
+
+clickElement/clickElement\.runs/\.jobs/
+
+clickElement/clickElement\.runs/impl_1/
+
+clickElement/clickElement\.runs/synth_1/
+
+clickElement/clickElement\.sim/sim_1/behav/xsim/
+
+*.xpr

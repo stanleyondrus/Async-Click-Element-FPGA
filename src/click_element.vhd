@@ -31,20 +31,22 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity clickity_clack is
-  GENERIC ( DATA_WIDTH: NATURAL := 3;
+entity click_element is
+  GENERIC ( 
+            DATA_WIDTH: NATURAL := 3;
             SEED: NATURAL := 0;
             REQ_INIT : STD_LOGIC := '0');
-  Port (    init : in std_logic;
+  Port (    
+            init : in std_logic;
             ack_i : in std_logic;
             req_i : in std_logic;
             data_i: in std_logic_vector(DATA_WIDTH-1 downto 0);
             ack_o: out std_logic;
             req_o: out std_logic;
             data_o: out std_logic_vector(DATA_WIDTH-1 downto 0));
-end clickity_clack;
+end click_element;
 
-architecture Behavioral of clickity_clack is
+architecture Behavioral of click_element is
 
 signal ack_o_int : std_logic := REQ_INIT;--'0';
 signal and1 : std_logic;
@@ -67,7 +69,7 @@ begin
 and1 <= not(req_i) and ack_o_int and ack_i;
 and2 <= not(ack_i) and not(ack_o_int) and req_i;
 or_out <= pseudo_clk;
-req_o <= ack_o_int;-- req_sig;
+req_o <= ack_o_int;
 data_o <= data_sig;
 ack_o <= ack_o_int;
 
