@@ -10,16 +10,12 @@ use ieee.numeric_std.all;
 entity click_component_ring is
     generic (
           SIZE: natural := 3;                           -- Number of Click components in the ring
-          DATA_WIDTH: natural := 4;                     -- for Click element                
-          DELAY_REQ_LENGTH : integer := 5;
-          DELAY_SIZE : natural range 1 to 30 := 30
-    );
+          DATA_WIDTH: natural := 4;                     -- for Click element
+          DELAY_REQ_LENGTH : integer := 100;
+          DELAY_SIZE : natural range 1 to 30 := 30);   
     port (    
-          init : in std_logic);
-          --data : out std_logic_vector(4 downto 0); --commented out for now
-          --test_in : in std_logic;
-          --test_out : out std_logic;
-          --test_out_pin : out std_logic);
+          init : in std_logic := '0';
+          JA1, JA2, JA3, JA4, JA7: out std_logic);
 end click_component_ring;
 
 architecture behavioral of click_component_ring is
@@ -47,7 +43,6 @@ type data_type is array(SIZE downto 0) of std_logic_vector(DATA_WIDTH-1 downto 0
 
 signal data_sig: data_type;
 
-
 attribute dont_touch : string;
 attribute dont_touch of ack_sig, req_sig, data_sig: signal is "true";
 attribute dont_touch of click_component : component is "yes";
@@ -55,8 +50,8 @@ attribute dont_touch of click_component : component is "yes";
 begin  
     click_comp_gen : for i in 0 to (SIZE-1) generate
         type seed_type is array (natural range 0 to SIZE-1) of natural;
-        constant REQ_INIT : std_logic_vector(2 downto 0) := "100";  
-        constant  SEED_VALUE : seed_type  := (0,0,0);
+        constant REQ_INIT : std_logic_vector(SIZE-1 downto 0) := "100";  
+        constant SEED_VALUE : seed_type  := (0,0,0);
      begin
        click_i: click_component 
         generic map(
@@ -75,5 +70,10 @@ begin
     ack_sig(SIZE) <= ack_sig(0);  
     req_sig(0) <= req_sig(SIZE); 
     data_sig(0) <= data_sig(SIZE); 
-             
+    JA1 <= data_sig(SIZE)(0);
+    JA2 <= data_sig(SIZE)(1);
+    JA3 <= data_sig(SIZE)(2);
+    JA4 <= data_sig(SIZE)(3);
+    JA7 <= req_sig(0);
+              
 end behavioral;

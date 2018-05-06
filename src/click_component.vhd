@@ -27,7 +27,7 @@ end click_component;
 architecture behavioral of click_component is
 
 signal req_to_click_delay: std_logic;
-signal data_sig: std_logic_vector(3 downto 0);
+signal data_sig: std_logic_vector(DATA_WIDTH-1 downto 0);
 
 attribute dont_touch : string;
 attribute dont_touch of req_to_click_delay, data_sig : signal is "true";
