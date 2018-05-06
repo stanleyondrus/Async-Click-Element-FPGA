@@ -1,21 +1,5 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 04/12/2018 11:02:06 AM
--- Design Name: 
--- Module Name: clickity_clack - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
+-- Click component ring
 ----------------------------------------------------------------------------------
 
 library ieee;
@@ -31,20 +15,20 @@ entity click_component_ring is
           DELAY_SIZE : natural range 1 to 30 := 30
     );
     port (    
-          init : IN STD_LOGIC);
-          --data : OUT STD_LOGIC_VECTOR(4 DOWNTO 0); --commented out for now
-          --test_in : IN STD_LOGIC;
-          --test_out : OUT STD_LOGIC;
-          --test_out_pin : OUT STD_LOGIC);
+          init : in std_logic);
+          --data : out std_logic_vector(4 downto 0); --commented out for now
+          --test_in : in std_logic;
+          --test_out : out std_logic;
+          --test_out_pin : out std_logic);
 end click_component_ring;
 
-architecture Behavioral of click_component_ring is
+architecture behavioral of click_component_ring is
 
 component click_component is
   generic (
-          DATA_WIDTH: NATURAL := DATA_WIDTH;
-          SEED: NATURAL;
-          REQ_INIT : STD_LOGIC;
+          DATA_WIDTH: natural := DATA_WIDTH;
+          SEED: natural;
+          REQ_INIT : std_logic;
           DELAY_REQ_LENGTH : integer := DELAY_REQ_LENGTH;
           DELAY_SIZE : natural range 1 to 30 := DELAY_SIZE);
   port (    
@@ -61,7 +45,6 @@ signal ack_sig: std_logic_vector(SIZE downto 0);
 signal req_sig: std_logic_vector(SIZE downto 0);
 type data_type is array(SIZE downto 0) of std_logic_vector(DATA_WIDTH-1 downto 0); 
 
---signal data_sig: std_logic_vector(DATA_WIDTH-1 downto 0) := std_logic_vector(to_unsigned(SEED, DATA_WIDTH));
 signal data_sig: data_type;
 
 
@@ -93,4 +76,4 @@ begin
     req_sig(0) <= req_sig(SIZE); 
     data_sig(0) <= data_sig(SIZE); 
              
-end Behavioral;
+end behavioral;
