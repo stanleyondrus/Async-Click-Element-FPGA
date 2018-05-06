@@ -55,7 +55,11 @@ attribute dont_touch of click_component : component is "yes";
 
 begin    
     click_comp_gen : for i in 0 to (SIZE-1) generate
-       click_i: click_component port map(
+       click_i: click_component 
+        generic map(
+              SEED => SEED,
+              REQ_INIT => REQ_INIT)
+       port map(
               init => init,
               ack_i => ack_sig(i+1), 
               req_i => req_sig(i), 
