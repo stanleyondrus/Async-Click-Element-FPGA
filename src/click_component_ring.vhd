@@ -2,10 +2,10 @@
 -- Click component ring
 ----------------------------------------------------------------------------------
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
-use IEEE.numeric_std.all;
+use ieee.numeric_std.all;
 
 entity click_component_ring is
     generic (

@@ -2,16 +2,16 @@
 -- Click element
 ----------------------------------------------------------------------------------
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity click_element is
-  GENERIC ( 
+  generic ( 
             DATA_WIDTH: natural := 3;
             SEED: natural := 0;
             REQ_INIT : std_logic := '0');
-  Port (    
+  port (    
             init : in std_logic;
             ack_i : in std_logic;
             req_i : in std_logic;

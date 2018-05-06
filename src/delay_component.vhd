@@ -2,8 +2,8 @@
 -- Delay component
 ----------------------------------------------------------------------------------
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity  delay_component  is
     generic(
