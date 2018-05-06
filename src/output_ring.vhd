@@ -32,7 +32,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 ENTITY output_ring IS
-    PORT (    rst : IN STD_LOGIC;
+    PORT (    init : IN STD_LOGIC;
           data : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
           test_in : IN STD_LOGIC;
           test_out : OUT STD_LOGIC;
@@ -44,7 +44,7 @@ ARCHITECTURE Behavioral OF output_ring IS
 SIGNAL req_1_2, req_2_3, req_3_4, req_4_5, req_5_6, req_6_7, req_7_8, req_8_9, req_9_1 : STD_LOGIC;
 SIGNAL ack_1_9, ack_9_8, ack_8_7, ack_7_6, ack_6_5, ack_5_4, ack_4_3, ack_3_2, ack_2_1 : STD_LOGIC;
 SIGNAL data_1_2, data_2_3, data_3_4, data_4_5, data_5_6, data_6_7, data_7_8, data_8_9, data_9_1 : STD_LOGIC_VECTOR(4 DOWNTO 0); 
-signal init : std_logic;
+--signal init : std_logic;
 
     COMPONENT top_clack IS
     GENERIC ( DATA_WIDTH: NATURAL := 5;
@@ -215,6 +215,6 @@ BEGIN
             data_o => data_9_1
         );
     
-     init <= '0', '1' after 1600 ns;
+    -- init <= '0', '1' after 1600 ns;
 
 END Behavioral;
