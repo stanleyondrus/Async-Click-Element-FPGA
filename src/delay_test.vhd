@@ -1,7 +1,23 @@
 ----------------------------------------------------------------------------------
--- Delay test
--- length:10 / size:30 / 100ns delay
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/11/2018 11:08:36 PM
+-- Design Name: 
+-- Module Name: delay_test
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
+
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -9,40 +25,45 @@ use IEEE.STD_LOGIC_1164.ALL;
 use ieee.std_logic_unsigned.all;
 
 entity delay_test is
- generic(
-       length : integer := 10; -- number of delay_elements
-       size : natural range 1 to 30 := 30); -- number of LUTs per delay_element      
-    port (
-        SW0 : IN STD_LOGIC;
-        LED0, LED1, JA1, JA4: OUT STD_LOGIC);
+    generic(
+        size : natural := 20 -- Delay  size
+    );
+    PORT (
+        d : IN STD_LOGIC;
+        z: OUT STD_LOGIC);
 end delay_test;
 
-architecture behavioral of delay_test is
-    signal in_sig, out_sig: std_logic; 
-        
-   component delay_component
-      generic(
-               length : integer; -- number of delay_elements
-               size : natural range 1 to 30); -- number of LUTs per delay_element      
-             port (
-               d : in   std_logic := '0'; -- Data in
-               z : out  std_logic := '0'); -- Data out
-    end component;
+architecture Behavioral of delay_test is
+constant STAGES : integer := size;
+signal delay_sig: std_logic_vector(STAGES downto 0);
+
+component delay_element
+    generic(
+        size : natural  range 1 to 30 := 10 -- Delay  size
+        );
+        port (
+            d : in   std_logic := '0'; -- Data  in
+            z : out  std_logic := '0');
+    end  component;
+
+attribute DONT_TOUCH : string;
+attribute  DONT_TOUCH of  delay_sig : signal is "true";  
 
 begin
 
-delay_gen : delay_component
-    generic map(
-            length => length, -- number of delay_elements
-            size => size) -- number of LUTs per delay_element        
-        port map(
-            d => in_sig, -- Data  in
-            z => out_sig); -- Data out
-            
-   in_sig <= SW0;
-   LED0 <= SW0;
-   LED1 <= out_sig;
-   JA1 <= SW0;
-   JA4 <= out_sig;
+delay_gen:for i in 0 to (STAGES-1) generate
+    attribute DONT_TOUCH of delay_i: label is "true";
+    begin 
+   delay_i : delay_element
+   generic map(
+               size => 20)
+   port map(
+           d => delay_sig(i),
+           z => delay_sig(i+1)
+    );
+end generate;
 
-end behavioral;
+   delay_sig(0) <= d;
+   z <= delay_sig(STAGES);
+  
+end Behavioral;
