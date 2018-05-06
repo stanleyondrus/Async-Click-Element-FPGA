@@ -62,7 +62,7 @@ begin
             );
         
         -- Simulate delay of 1 ns     
-        s_connect(index+1) <= o;
+        s_connect(index+1) <= o after 1 ns;
         
    end generate lut_chain;
         
