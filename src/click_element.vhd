@@ -1,41 +1,16 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 04/12/2018 11:02:06 AM
--- Design Name: 
--- Module Name: clickity_clack - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
+-- Click element
 ----------------------------------------------------------------------------------
-
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
 
 entity click_element is
   GENERIC ( 
-            DATA_WIDTH: NATURAL := 3;
-            SEED: NATURAL := 0;
-            REQ_INIT : STD_LOGIC := '0');
+            DATA_WIDTH: natural := 3;
+            SEED: natural := 0;
+            REQ_INIT : std_logic := '0');
   Port (    
             init : in std_logic;
             ack_i : in std_logic;
@@ -46,7 +21,7 @@ entity click_element is
             data_o: out std_logic_vector(DATA_WIDTH-1 downto 0));
 end click_element;
 
-architecture Behavioral of click_element is
+architecture behavioral of click_element is
 
 signal ack_o_int : std_logic := REQ_INIT;--'0';
 signal and1 : std_logic;
@@ -55,14 +30,14 @@ signal or_out: std_logic := '0';
 signal data_sig: std_logic_vector(DATA_WIDTH-1 downto 0) := std_logic_vector(to_unsigned(SEED, DATA_WIDTH));
 signal init_sig: std_logic := '1';
 signal pseudo_clk : std_logic := '0';
-attribute DONT_TOUCH : string;
-attribute  DONT_TOUCH of  ack_o_int : signal is "true";  
-attribute  DONT_TOUCH of  and1 : signal is "true";  
-attribute  DONT_TOUCH of  and2 : signal is "true";  
-attribute  DONT_TOUCH of  or_out : signal is "true";  
-attribute  DONT_TOUCH of  data_sig : signal is "true";  
-attribute  DONT_TOUCH of  init_sig : signal is "true";  
-attribute  DONT_TOUCH of  pseudo_clk : signal is "true";  
+attribute dont_touch : string;
+attribute dont_touch of  ack_o_int : signal is "true";  
+attribute dont_touch of  and1 : signal is "true";  
+attribute dont_touch of  and2 : signal is "true";  
+attribute dont_touch of  or_out : signal is "true";  
+attribute dont_touch of  data_sig : signal is "true";  
+attribute dont_touch of  init_sig : signal is "true";  
+attribute dont_touch of  pseudo_clk : signal is "true";  
 
 begin
 
@@ -85,4 +60,4 @@ end process;
 
 pseudo_clk <= and1 or and2 when init = '1' else '0';
 
-end Behavioral;
+end behavioral;

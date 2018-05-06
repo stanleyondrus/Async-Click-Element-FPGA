@@ -9,9 +9,9 @@ use ieee.std_logic_unsigned.all;
 
 entity click_component is
   generic (
-          DATA_WIDTH: NATURAL;
-          SEED: NATURAL;
-          REQ_INIT : STD_LOGIC := '0';
+          DATA_WIDTH: natural;
+          SEED: natural;
+          REQ_INIT : std_logic := '0';
           DELAY_REQ_LENGTH : integer;-- := 5;
           DELAY_SIZE : natural);-- range 1 to 30 := 30);
   port (    
@@ -34,9 +34,9 @@ attribute dont_touch of req_to_click_delay, data_sig : signal is "true";
 
 component click_element is
   generic ( 
-        DATA_WIDTH: NATURAL := DATA_WIDTH;
-        SEED: NATURAL := SEED;
-        REQ_INIT : STD_LOGIC := REQ_INIT);
+        DATA_WIDTH: natural := DATA_WIDTH;
+        SEED: natural := SEED;
+        REQ_INIT : std_logic := REQ_INIT);
   port (    
         init : in std_logic;
         ack_i : in std_logic;

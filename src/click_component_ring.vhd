@@ -1,21 +1,5 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 04/12/2018 11:02:06 AM
--- Design Name: 
--- Module Name: clickity_clack - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
+-- Click component ring
 ----------------------------------------------------------------------------------
 
 library IEEE;
@@ -23,30 +7,30 @@ use IEEE.STD_LOGIC_1164.ALL;
 use ieee.std_logic_unsigned.all;
 use IEEE.numeric_std.all;
 
-entity click_component_ring IS
+entity click_component_ring is
     generic (
-          SIZE: NATURAL := 3;                           -- Number of Click components in the ring
-          DATA_WIDTH: NATURAL := 4;                     -- for Click element
-          SEED: NATURAL := 3;                           -- for Click element
-          REQ_INIT : STD_LOGIC := '0';
+          SIZE: natural := 3;                           -- Number of Click components in the ring
+          DATA_WIDTH: natural := 4;                     -- for Click element
+          SEED: natural := 3;                           -- for Click element
+          REQ_INIT : std_logic := '0';
           DELAY_REQ_LENGTH : integer := 5;
           DELAY_SIZE : natural range 1 to 30 := 30
     );
     port (    
-          init : IN STD_LOGIC);
-          --data : OUT STD_LOGIC_VECTOR(4 DOWNTO 0); --commented out for now
-          --test_in : IN STD_LOGIC;
-          --test_out : OUT STD_LOGIC;
-          --test_out_pin : OUT STD_LOGIC);
+          init : IN std_logic);
+          --data : out std_logic_vector(4 downto 0); --commented out for now
+          --test_in : in std_logic;
+          --test_out : out std_logic;
+          --test_out_pin : out std_logic);
 end click_component_ring;
 
-architecture Behavioral of click_component_ring is
+architecture behavioral of click_component_ring is
 
 component click_component is
   generic (
-          DATA_WIDTH: NATURAL := DATA_WIDTH;
-          SEED: NATURAL := SEED;
-          REQ_INIT : STD_LOGIC := REQ_INIT;
+          DATA_WIDTH: natural := DATA_WIDTH;
+          SEED: natural := SEED;
+          REQ_INIT : std_logic := REQ_INIT;
           DELAY_REQ_LENGTH : integer := DELAY_REQ_LENGTH;
           DELAY_SIZE : natural range 1 to 30 := DELAY_SIZE);
   port (    
@@ -85,4 +69,4 @@ begin
     req_sig(0) <= req_sig(SIZE); 
     data_sig(0) <= data_sig(SIZE); 
              
-end Behavioral;
+end behavioral;

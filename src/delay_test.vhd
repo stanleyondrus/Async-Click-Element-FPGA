@@ -10,7 +10,7 @@ use ieee.std_logic_unsigned.all;
 
 entity delay_test is
  generic(
-       length : integer := 10; -- number of delay_elements
+       length : integer := 800; -- number of delay_elements
        size : natural range 1 to 30 := 30); -- number of LUTs per delay_element      
     port (
         SW0 : IN STD_LOGIC;
