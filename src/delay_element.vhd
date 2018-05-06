@@ -4,7 +4,10 @@
 ----------------------------------------------------------------------------------
 
 library ieee;
+library unisim;
 use ieee.std_logic_1164.all;
+use unisim.vcomponents.lut2; 
+use unisim.vcomponents.lut1; 
 
 entity  delay_element is
     generic(
