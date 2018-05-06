@@ -36,7 +36,7 @@ entity single_click is
 --  Port ( );
 end single_click;
 
-architecture Behavioral of single_click is
+architecture behavioral of single_click is
 signal WIDTH: natural := 4;
 signal clk,rst : std_logic := '0'; 
 signal delay_req : std_logic;
@@ -124,5 +124,5 @@ begin
 
     rst <= '1', '0' after 50 ns;
 
-end Behavioral;
+end behavioral;
 ----

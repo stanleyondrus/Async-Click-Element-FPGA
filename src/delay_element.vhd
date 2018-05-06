@@ -61,14 +61,14 @@ begin
             port  map(
                 I1 => d,
                 I0 => s_connect(index),
-                O   => o
+                 O => o
             );
         
         -- Simulate delay of 1 ns     
-        s_connect(index +1) <= o after 1 ns;
+        s_connect(index+1) <= o after 1 ns;
         
    end generate lut_chain;
         
         -- Connect the output of delay element       
-        z  <= s_connect(size -1);
+        z  <= s_connect(size);
 end  lut;
