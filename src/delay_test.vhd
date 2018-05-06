@@ -1,20 +1,22 @@
 ----------------------------------------------------------------------------------
 -- Delay test
+-- length:1 / size:30 / 10ns delay
 -- length:10 / size:30 / 100ns delay
+-- length:100 / size:30 / 1us delay
 ----------------------------------------------------------------------------------
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
 
 use ieee.std_logic_unsigned.all;
 
 entity delay_test is
  generic(
-       length : integer := 800; -- number of delay_elements
+       length : integer := 10; -- number of delay_elements
        size : natural range 1 to 30 := 30); -- number of LUTs per delay_element      
     port (
-        SW0 : IN STD_LOGIC;
-        LED0, LED1, JA1, JA4: OUT STD_LOGIC);
+        SW0 : in std_logic;
+        LED0, LED1, JA1, JA4: out std_logic);
 end delay_test;
 
 architecture behavioral of delay_test is

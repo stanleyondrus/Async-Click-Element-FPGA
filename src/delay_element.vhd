@@ -3,11 +3,8 @@
 -- used in delay_component
 ----------------------------------------------------------------------------------
 
-library IEEE;
-library  unisim;
-use IEEE.STD_LOGIC_1164.ALL;
-use  unisim.vcomponents.lut2;
-use  unisim.vcomponents.lut1;
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity  delay_element is
     generic(
