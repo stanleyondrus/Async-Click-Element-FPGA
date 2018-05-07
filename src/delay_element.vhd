@@ -56,7 +56,7 @@ begin
     begin
         delay_lut: lut2
             generic  map(
-                init => "1010" -- AND truth-table
+                init => "1010" -- Output A
             )
             port  map(
                 I1 => d,
